@@ -35,6 +35,7 @@ namespace OhMyBot.Dialogs
             context.Wait(CounterLoop);
         }
 
+        // Standard dialog loop
         private async Task CounterLoop(IDialogContext context, IAwaitable<IMessageActivity> argument)
         {
             var message = await argument as Activity;
@@ -62,7 +63,8 @@ namespace OhMyBot.Dialogs
                 context.Wait(CounterLoop);
             }
         }
-
+        
+        // After the user selects an option for reset yes/no
         private async Task OnOptionSelected(IDialogContext context, IAwaitable<string> result)
         {
             try
