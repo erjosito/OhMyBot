@@ -37,7 +37,6 @@ namespace OhMyBot.Dialogs
             }
             else if (activity.Text.ToLower().Contains("city"))
             {
-                //await Conversation.SendAsync(activity, MakeSandwichDialog);
                 await context.PostAsync("Let us start with the city dialog...");
                 context.Call(new StateDialog(), ResumeAfterStateDialog);
             }
@@ -102,7 +101,7 @@ namespace OhMyBot.Dialogs
 
         private async Task ResumeAfterStateDialog(IDialogContext context, IAwaitable<object> result)
         {
-            object MyObject = await result;
+           // object MyObject = await result;
             await context.PostAsync($"Thanks for using the state dialog."
                                      + ". You are now back into the root dialog");
             // Go back to the root loop
