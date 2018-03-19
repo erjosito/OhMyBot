@@ -24,6 +24,9 @@
             }
 
             await context.PostAsync($"Welcome to the state dialog. Your current city is {defaultCity}");
+            await context.PostAsync($"These are the rules: {HelpMessage}");
+            this.userWelcomed = true;
+
             context.Wait(this.MessageReceivedAsync);
         }
 
@@ -40,7 +43,7 @@
                 return;
             }
 
-            if (message.Text.Equals("current city", StringComparison.InvariantCultureIgnoreCase))
+            if (message.Text.Equals("exit", StringComparison.InvariantCultureIgnoreCase))
             {
                 await context.PostAsync($"Thanks for using the city bot, see you around!");
                 context.Done<object>(null);
