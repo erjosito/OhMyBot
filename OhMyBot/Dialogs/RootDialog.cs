@@ -38,8 +38,8 @@ namespace OhMyBot.Dialogs
             else if (activity.Text.ToLower().Contains("city"))
             {
                 //await Conversation.SendAsync(activity, MakeSandwichDialog);
-                var myCityDialog = new StateDialog();
-                context.Call(myCityDialog, ResumeAfterStateDialog);
+                await context.PostAsync("Let us start with the city dialog...");
+                context.Call(new StateDialog(), ResumeAfterStateDialog);
             }
             else if (activity.Text.ToLower().Contains("azure"))
             {
