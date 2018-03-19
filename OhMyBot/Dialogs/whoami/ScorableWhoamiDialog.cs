@@ -18,14 +18,14 @@ namespace OhMyBot.Dialogs.whoami
         public async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync($"You have been shorcutted to the whoami dialog.{Environment.NewLine}You must be someone important");
-            string Username = context.Activity.From.Id;
             if (context.UserData.TryGetValue("Name", out Username))
             {
                 await context.PostAsync($"You must be " + Username);
             }
             else
             {
-                await context.PostAsync($"Maybe you are... " + Username + "?");
+                await context.PostAsync($"Context.Activity.From.Id: " + context.Activity.From.Id.ToString());
+                await context.PostAsync($"Context.Activity.ChannelId: " + context.Activity.ChannelId.ToString());
             }
             // State transition - complete this Dialog and remove it from the stack
             context.Done<object>(new object());
