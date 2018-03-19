@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Connector;
 using OhMyBot.Dialogs.Help;
+using OhMyBot.Dialogs.whoami;
 
 namespace OhMyBot
 {
@@ -22,6 +23,9 @@ namespace OhMyBot
             // register our scorables
             var builder = new ContainerBuilder();
             builder.RegisterType<ScorableHelp>()
+                .As<IScorable<IActivity, double>>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<ScorableWhoami>()
                 .As<IScorable<IActivity, double>>()
                 .InstancePerLifetimeScope();
             builder.Update(Conversation.Container);
