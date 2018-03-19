@@ -99,15 +99,8 @@ namespace OhMyBot.Dialogs
 
         private async Task ResumeAfterStateDialog(IDialogContext context, IAwaitable<object> result)
         {
-            try
-            {
-                object StateObject = await result;
-                await context.PostAsync($"Thanks for using the state dialog. You are now back into the root dialog");
-            }
-            catch (Exception e)
-            {
-                await context.PostAsync($"An error occurred: '{e.ToString()}'");
-            }
+            object StateObject = await result;
+            await context.PostAsync($"Thanks for using the state dialog. You are now back into the root dialog");
             // Go back to the root loop
             context.Wait(this.RootLoop);
         }
