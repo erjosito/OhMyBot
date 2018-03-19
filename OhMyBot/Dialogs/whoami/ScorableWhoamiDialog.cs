@@ -17,6 +17,7 @@ namespace OhMyBot.Dialogs.whoami
         public async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync($"You have been shorcutted to the whoami dialog.{Environment.NewLine}You must be someone important");
+            await context.PostAsync($"Your must be " + context.UserData.GetValue<string>("Name"));
 
             // State transition - complete this Dialog and remove it from the stack
             context.Done<object>(new object());
