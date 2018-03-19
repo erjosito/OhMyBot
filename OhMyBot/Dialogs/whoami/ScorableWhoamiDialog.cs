@@ -13,6 +13,7 @@ namespace OhMyBot.Dialogs.whoami
     {
 
         protected string topic;
+        string Username;
 
         // Entry point to the Dialog
         public async Task StartAsync(IDialogContext context)
