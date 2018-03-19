@@ -5,6 +5,7 @@
     using System.Web;
     using Microsoft.Bot.Builder.Dialogs;
     using Microsoft.Bot.Connector;
+    using System.Linq;
 
     [Serializable]
     public class StateDialog : IDialog<object>
@@ -48,49 +49,52 @@
                 await context.PostAsync($"Thanks for using the city bot, see you around!");
                 context.Done<object>(null);
             }
-            else if (message.Text.Equals("current city", StringComparison.InvariantCultureIgnoreCase))
+            else
             {
-                string userCity;
-
-                var city = context.ConversationData.GetValue<string>(CityKey);
-
-                if (context.PrivateConversationData.TryGetValue(CityKey, out userCity))
+                if (message.Text.Equals("current city", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    await context.PostAsync($"You have overridden the city. Your current city is now {userCity}. The default conversation city is {city}.");
+                    string userCity;
+
+                    var city = context.ConversationData.GetValue<string>(CityKey);
+
+                    if (context.PrivateConversationData.TryGetValue(CityKey, out userCity))
+                    {
+                        await context.PostAsync($"You have overridden the city. Your current city is now {userCity}. The default conversation city is {city}.");
+                    }
+                    else
+                    {
+                        await context.PostAsync($"Hey, I'm currently configured with city {city}.");
+                    }
+                }
+                else if (message.Text.StartsWith("change city to", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var newCity = message.Text.Substring("change city to".Length).Trim();
+                    context.ConversationData.SetValue(CityKey, newCity);
+
+                    await context.PostAsync($"All set. From now on, your city is {newCity}.");
+                }
+                else if (message.Text.StartsWith("change my city to", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var newCity = message.Text.Substring("change my city to".Length).Trim();
+                    context.PrivateConversationData.SetValue(CityKey, newCity);
+
+                    await context.PostAsync($"All set. I have overridden the city to {newCity} just for you.");
                 }
                 else
                 {
-                    await context.PostAsync($"Hey, I'm currently configured with city {city}.");
-                }
-            }
-            else if (message.Text.StartsWith("change city to", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var newCity = message.Text.Substring("change city to".Length).Trim();
-                context.ConversationData.SetValue(CityKey, newCity);
+                    string city;
 
-                await context.PostAsync($"All set. From now on, your city is {newCity}.");
-            }
-            else if (message.Text.StartsWith("change my city to", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var newCity = message.Text.Substring("change my city to".Length).Trim();
-                context.PrivateConversationData.SetValue(CityKey, newCity);
+                    if (!context.PrivateConversationData.TryGetValue(CityKey, out city))
+                    {
+                        city = context.ConversationData.GetValue<string>(CityKey);
+                    }
 
-                await context.PostAsync($"All set. I have overridden the city to {newCity} just for you.");
-            }
-            else
-            {
-                string city;
-
-                if (!context.PrivateConversationData.TryGetValue(CityKey, out city))
-                {
-                    city = context.ConversationData.GetValue<string>(CityKey);
+                    await context.PostAsync($"Wait a few seconds. Searching for '{message.Text}' in '{city}'...");
+                    await context.PostAsync($"https://www.bing.com/search?q={HttpUtility.UrlEncode(message.Text)}+in+{HttpUtility.UrlEncode(city)}");
                 }
 
-                await context.PostAsync($"Wait a few seconds. Searching for '{message.Text}' in '{city}'...");
-                await context.PostAsync($"https://www.bing.com/search?q={HttpUtility.UrlEncode(message.Text)}+in+{HttpUtility.UrlEncode(city)}");
+                context.Wait(this.MessageReceivedAsync);
             }
-
-            context.Wait(this.MessageReceivedAsync);
         }
 
         private async Task ResumeAfterPrompt(IDialogContext context, IAwaitable<string> result)
