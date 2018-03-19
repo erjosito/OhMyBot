@@ -84,26 +84,30 @@ namespace OhMyBot.Dialogs
         private async Task ResumeAfterSandwichDialog(IDialogContext context, IAwaitable<SandwichOrder> result)
         {
             SandwichOrder order = await result;
-            await context.PostAsync($"I will order that sandwich for you."
-                                     + ". You are now back into the root dialog");
+            await context.PostAsync($"I will order that sandwich for you. You are now back into the root dialog");
             // Go back to the root loop
             context.Wait(this.RootLoop);
         }
 
         private async Task ResumeAfterAzureDialog(IDialogContext context, IAwaitable<object> result)
         {
-            object MyObject = await result;
-            await context.PostAsync($"Thanks for using Azure."
-                                     + ". You are now back into the root dialog");
+            object AzureObject = await result;
+            await context.PostAsync($"Thanks for using Azure. You are now back into the root dialog");
             // Go back to the root loop
             context.Wait(this.RootLoop);
         }
 
         private async Task ResumeAfterStateDialog(IDialogContext context, IAwaitable<object> result)
         {
-           // object MyObject = await result;
-            await context.PostAsync($"Thanks for using the state dialog."
-                                     + ". You are now back into the root dialog");
+            try
+            {
+                object StateObject = await result;
+                await context.PostAsync($"Thanks for using the state dialog. You are now back into the root dialog");
+            }
+            catch (Exception e)
+            {
+                await context.PostAsync($"An error occurred: '{e.ToString()}'");
+            }
             // Go back to the root loop
             context.Wait(this.RootLoop);
         }
