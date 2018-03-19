@@ -35,6 +35,12 @@ namespace OhMyBot.Dialogs
                 var mySandwichDialog = MakeSandwichDialog();
                 context.Call(mySandwichDialog, ResumeAfterSandwichDialog);
             }
+            else if (activity.Text.ToLower().Contains("city"))
+            {
+                //await Conversation.SendAsync(activity, MakeSandwichDialog);
+                var myCityDialog = new StateDialog();
+                context.Call(myCityDialog, ResumeAfterStateDialog);
+            }
             else if (activity.Text.ToLower().Contains("azure"))
             {
                 await context.PostAsync("You are now entering the LUIS dialog for Azure commands");
@@ -89,6 +95,15 @@ namespace OhMyBot.Dialogs
         {
             object MyObject = await result;
             await context.PostAsync($"Thanks for using Azure."
+                                     + ". You are now back into the root dialog");
+            // Go back to the root loop
+            context.Wait(this.RootLoop);
+        }
+
+        private async Task ResumeAfterStateDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            object MyObject = await result;
+            await context.PostAsync($"Thanks for using the state dialog."
                                      + ". You are now back into the root dialog");
             // Go back to the root loop
             context.Wait(this.RootLoop);
