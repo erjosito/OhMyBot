@@ -13,12 +13,12 @@ namespace OhMyBot.Dialogs.whoami
     {
 
         protected string topic;
-        string Username;
 
         // Entry point to the Dialog
+        // This dialog only prints information out of the context argument, and leaves
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync($"You have been shorcutted to the whoami dialog");
+            await context.PostAsync($"You have been shortcutted to the whoami dialog");
             await context.PostAsync($"Context.Activity.From.Id: " + context.Activity.From.Id.ToString());
             await context.PostAsync($"Context.Activity.From.Name: " + context.Activity.From.Name.ToString());
             await context.PostAsync($"Context.Activity.Recipient.Id: " + context.Activity.Recipient.Id.ToString());

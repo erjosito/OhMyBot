@@ -16,7 +16,7 @@ namespace OhMyBot.Dialogs.Help
         // Entry point to the Dialog
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync($"You have been shorcutted to the help dialog.{Environment.NewLine}What do you need help with?");
+            await context.PostAsync($"You have been shortcutted to the help dialog.{Environment.NewLine}What do you need help with?");
 
             // State transition - wait for 'payee' message from user
             context.Wait(MessageReceivedTopic);

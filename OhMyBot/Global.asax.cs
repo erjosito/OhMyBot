@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 using System.Configuration;
+using System.Reflection;
 using Autofac;
-//using Microsoft.Bot.Builder.Azure;
+using Autofac.Integration.WebApi;
+using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Scorables;
@@ -21,6 +23,16 @@ namespace OhMyBot
         protected void Application_Start()
         {
 
+            Conversation.UpdateContainer(mybuilder =>
+                {
+                    mybuilder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
+                    var store = new TableBotDataStore(ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString);
+                    mybuilder.Register(c => store)
+                       .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
+                       .AsSelf()
+                       .SingleInstance();
+                });
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
             // register our scorables
@@ -32,16 +44,9 @@ namespace OhMyBot
                 .As<IScorable<IActivity, double>>()
                 .InstancePerLifetimeScope();
 
-            // state
-            /*
-            var store = new SqlBotDataStore(ConfigurationManager.ConnectionStrings["BotDataContextConnectionString"].ConnectionString);
-            builder.Register(c => store)
-                .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
-                .AsSelf()
-                .SingleInstance();
-            */
-
             builder.Update(Conversation.Container);
         }
+
+
     }
 }
