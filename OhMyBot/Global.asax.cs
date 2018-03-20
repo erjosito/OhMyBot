@@ -23,15 +23,22 @@ namespace OhMyBot
         protected void Application_Start()
         {
 
-            Conversation.UpdateContainer(mybuilder =>
-                {
-                    mybuilder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
-                    var store = new TableBotDataStore(ConfigurationManager.AppSettings["StorageConnectionString"]);
-                    mybuilder.Register(c => store)
-                       .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
-                       .AsSelf()
-                       .SingleInstance();
-                });
+            try
+            {
+                Conversation.UpdateContainer(mybuilder =>
+                    {
+                        mybuilder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
+                        var store = new TableBotDataStore(ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString);
+                        mybuilder.Register(c => store)
+                        .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
+                        .AsSelf()
+                        .SingleInstance();
+                    });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("This is probably normal if running the code locally: '{0}'", e);
+            }
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
