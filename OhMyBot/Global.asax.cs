@@ -26,7 +26,7 @@ namespace OhMyBot
             Conversation.UpdateContainer(mybuilder =>
                 {
                     mybuilder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
-                    var store = new TableBotDataStore(ConfigurationManager.ConnectionStrings["StorageConnectionString"].ConnectionString);
+                    var store = new TableBotDataStore(ConfigurationManager.AppSettings["StorageConnectionString"]);
                     mybuilder.Register(c => store)
                        .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
                        .AsSelf()
