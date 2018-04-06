@@ -21,6 +21,7 @@ namespace OhMyBot.Dialogs
         {
         }
 
+        /*
         protected override async Task RespondFromQnAMakerResultAsync(IDialogContext context, IMessageActivity message, QnAMakerResults result)
         {
             // answer is a string
@@ -47,6 +48,7 @@ namespace OhMyBot.Dialogs
             reply.Attachments.Add(card.ToAttachment());
             await context.PostAsync(reply);
         }
+        */
 
     }
 }
