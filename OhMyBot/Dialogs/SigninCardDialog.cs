@@ -38,14 +38,13 @@ namespace OhMyBot.Dialogs
             }
             else if (activity.Text.ToLower().Contains("sign"))
             {
-                //var message = await result;
-
                 // Initialize AuthenticationOptions and forward to AuthDialog for token
                 AuthenticationOptions options = new AuthenticationOptions()
                 {
                     Authority = ConfigurationManager.AppSettings["aad:Authority"],
                     ClientId = ConfigurationManager.AppSettings["aad:ClientId"],
                     ClientSecret = ConfigurationManager.AppSettings["aad:ClientSecret"],
+                    //Scopes = new string[] { "https://management.azure.com/" },
                     Scopes = new string[] { "User.Read" },
                     RedirectUrl = ConfigurationManager.AppSettings["aad:Callback"],
                     //MagicNumberView = "/magic.html#{0}"
