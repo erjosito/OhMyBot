@@ -21,34 +21,51 @@ namespace OhMyBot.Dialogs
         {
         }
 
-        /*
+        
         protected override async Task RespondFromQnAMakerResultAsync(IDialogContext context, IMessageActivity message, QnAMakerResults result)
         {
             // answer is a string
             var answer = result.Answers.First().Answer;
             Activity reply = ((Activity)context.Activity).CreateReply();
             string[] qnaAnswerData = answer.Split(';');
-            string title = qnaAnswerData[0];
-            string description = qnaAnswerData[1];
-            string url = qnaAnswerData[2];
-            string imageURL = qnaAnswerData[3];
+            string title = "";
+            string description = "";
+            string url = "";
+            string imageURL = "";
+
+            if (qnaAnswerData.Length == 4) {
+                title = qnaAnswerData[0];
+                description = qnaAnswerData[1];
+                url = qnaAnswerData[2];
+                imageURL = qnaAnswerData[3];
+            }
+            else
+            {
+                description = qnaAnswerData[0];
+                title = "Azure VMs";
+                url = "http://docs.microsoft.com";
+                imageURL = "https://i0.wp.com/www.aidanfinn.com/wp-content/uploads/2016/08/Capture-620x264.png";
+            }
             HeroCard card = new HeroCard
-            {
-                Title = title,
-                Subtitle = description,
-            };
-            card.Buttons = new List<CardAction>
-            {
-                new CardAction(ActionTypes.OpenUrl, "Learn More", value: url)
-            };
-            card.Images = new List<CardImage>
-            {
-                new CardImage( url = imageURL)
-            };
+                {
+                    Title = title,
+                    Subtitle = description,
+                };
+                card.Buttons = new List<CardAction>
+                {
+                    new CardAction(ActionTypes.OpenUrl, "Learn More", value: url)
+                };
+                card.Images = new List<CardImage>
+                {
+                    new CardImage( url = imageURL)
+                };
             reply.Attachments.Add(card.ToAttachment());
             await context.PostAsync(reply);
         }
-        */
 
+        protected override async Task DefaultWaitNextMessageAsync(IDialogContext context, IMessageActivity message, QnAMakerResults result)
+        {
+            context.Done<IMessageActivity>(null);
+        }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using OhMyBot.Dialogs.Sandwich;
 using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Builder.CognitiveServices.QnAMaker;
 
 namespace OhMyBot.Dialogs
 {
@@ -43,7 +44,7 @@ namespace OhMyBot.Dialogs
             else if (activity.Text.ToLower().Contains("qna"))
             {
                 await context.PostAsync("Let us start with the QnA dialog...");
-                context.Call(new QnADialog(), ResumeAfterQnADialog);
+                context.Call(new QnADialog(), this.ResumeAfterQnADialog);
                 //await Conversation.SendAsync(activity, () => new QnADialog());
             }
             else if (activity.Text.ToLower().Contains("azure"))
@@ -105,7 +106,7 @@ namespace OhMyBot.Dialogs
 
         private async Task ResumeAfterQnADialog(IDialogContext context, IAwaitable<object> result)
         {
-            object AzureObject = await result;
+            object qnaAnswer = await result;
             await context.PostAsync($"Thanks for using the QnA dialog, I hope I could answer your questions. You are now back into the root dialog");
             // Go back to the root loop
             context.Wait(this.RootLoop);
