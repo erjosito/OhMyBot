@@ -43,8 +43,8 @@ namespace OhMyBot.Dialogs
             else if (activity.Text.ToLower().Contains("qna"))
             {
                 await context.PostAsync("Let us start with the QnA dialog...");
-                //context.Call(new QnADialog(), ResumeAfterQnADialog);
-                await Conversation.SendAsync(activity, () => new QnADialog());
+                context.Call(new QnADialog(), ResumeAfterQnADialog);
+                //await Conversation.SendAsync(activity, () => new QnADialog());
             }
             else if (activity.Text.ToLower().Contains("azure"))
             {
