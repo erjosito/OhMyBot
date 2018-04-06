@@ -48,7 +48,7 @@ namespace OhMyBot.Dialogs
                     ClientSecret = ConfigurationManager.AppSettings["aad:ClientSecret"],
                     Scopes = new string[] { "User.Read" },
                     RedirectUrl = ConfigurationManager.AppSettings["aad:Callback"],
-                    MagicNumberView = "/magic.html#{0}"
+                    //MagicNumberView = "/magic.html#{0}"
                 };
 
                 await context.Forward(new AuthDialog(new MSALAuthProvider(), options), async (IDialogContext authContext, IAwaitable<AuthResult> authResult) =>
