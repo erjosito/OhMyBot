@@ -43,7 +43,8 @@ namespace OhMyBot.Dialogs
             else if (activity.Text.ToLower().Contains("qna"))
             {
                 await context.PostAsync("Let us start with the QnA dialog...");
-                context.Call(new QnADialog(), ResumeAfterQnADialog);
+                //context.Call(new QnADialog(), ResumeAfterQnADialog);
+                await Conversation.SendAsync(activity, () => new QnADialog());
             }
             else if (activity.Text.ToLower().Contains("azure"))
             {
@@ -55,7 +56,7 @@ namespace OhMyBot.Dialogs
                 // calculate something for us to return
                 int length = (activity.Text ?? string.Empty).Length;
                 // return our reply to the user
-                await context.PostAsync($"You sent {activity.Text} which was {length} characters");
+                await context.PostAsync($"You sent {activity.Text} which was {length} characters. Possible messages are sandwich, qna, azure, city and count");
 
                 // Wait for the next message
                 context.Wait(RootLoop);
