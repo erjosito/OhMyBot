@@ -75,6 +75,9 @@
     <Reference Include="Microsoft.Bot.Builder.Azure, Version=3.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bot.Builder.Azure.3.2.5\lib\net46\Microsoft.Bot.Builder.Azure.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bot.Builder.CognitiveServices.QnAMaker, Version=1.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bot.Builder.CognitiveServices.1.1.2\lib\net46\Microsoft.Bot.Builder.CognitiveServices.QnAMaker.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bot.Builder.History, Version=3.12.2.4, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bot.Builder.History.3.12.2.4\lib\net46\Microsoft.Bot.Builder.History.dll</HintPath>
     </Reference>
@@ -171,6 +174,7 @@
     <Compile Include="Dialogs\Help\ScorableHelp.cs" />
     <Compile Include="Dialogs\Help\ScorableHelpDialog.cs" />
     <Compile Include="Dialogs\AzureLUISDialog.cs" />
+    <Compile Include="Dialogs\QnADialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Dialogs\Sandwich\Sandwich.cs" />
     <Compile Include="Dialogs\StateDialog.cs" />

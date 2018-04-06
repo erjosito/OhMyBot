@@ -40,6 +40,11 @@ namespace OhMyBot.Dialogs
                 await context.PostAsync("Let us start with the city dialog...");
                 context.Call(new StateDialog(), ResumeAfterStateDialog);
             }
+            else if (activity.Text.ToLower().Contains("qna"))
+            {
+                await context.PostAsync("Let us start with the QnA dialog...");
+                context.Call(new QnADialog(), ResumeAfterQnADialog);
+            }
             else if (activity.Text.ToLower().Contains("azure"))
             {
                 await context.PostAsync("You are now entering the LUIS dialog for Azure commands");
@@ -96,6 +101,15 @@ namespace OhMyBot.Dialogs
             // Go back to the root loop
             context.Wait(this.RootLoop);
         }
+
+        private async Task ResumeAfterQnADialog(IDialogContext context, IAwaitable<object> result)
+        {
+            object AzureObject = await result;
+            await context.PostAsync($"Thanks for using the QnA dialog, I hope I could answer your questions. You are now back into the root dialog");
+            // Go back to the root loop
+            context.Wait(this.RootLoop);
+        }
+
 
         private async Task ResumeAfterStateDialog(IDialogContext context, IAwaitable<object> result)
         {
