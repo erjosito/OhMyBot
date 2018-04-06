@@ -47,6 +47,12 @@ namespace OhMyBot.Dialogs
                 context.Call(new QnADialog(), this.ResumeAfterQnADialog);
                 //await Conversation.SendAsync(activity, () => new QnADialog());
             }
+            else if (activity.Text.ToLower().Contains("sign"))
+            {
+                await context.PostAsync("Let us start with the sign-in dialog...");
+                context.Call(new SigninCardDialog(), this.ResumeAfterSigninDialog);
+                //await Conversation.SendAsync(activity, () => new QnADialog());
+            }
             else if (activity.Text.ToLower().Contains("azure"))
             {
                 await context.PostAsync("You are now entering the LUIS dialog for Azure commands");
@@ -57,7 +63,7 @@ namespace OhMyBot.Dialogs
                 // calculate something for us to return
                 int length = (activity.Text ?? string.Empty).Length;
                 // return our reply to the user
-                await context.PostAsync($"You sent {activity.Text} which was {length} characters. Possible messages are sandwich, qna, azure, city and count");
+                await context.PostAsync($"You sent {activity.Text} which was {length} characters. Possible messages are sandwich, qna, azure, city, sign-in and count");
 
                 // Wait for the next message
                 context.Wait(RootLoop);
@@ -112,6 +118,13 @@ namespace OhMyBot.Dialogs
             context.Wait(this.RootLoop);
         }
 
+        private async Task ResumeAfterSigninDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            object qnaAnswer = await result;
+            await context.PostAsync($"Thanks for using the Sign-in dialog. You are now back into the root dialog");
+            // Go back to the root loop
+            context.Wait(this.RootLoop);
+        }
 
         private async Task ResumeAfterStateDialog(IDialogContext context, IAwaitable<object> result)
         {
