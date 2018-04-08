@@ -39,7 +39,7 @@ namespace OhMyBot.Dialogs
             }
             else if (activity.Text.ToLower().Contains("sign"))
             {
-                
+                /*
                 // Initialize AuthenticationOptions and forward to AuthDialog for token
                 AuthenticationOptions options = new AuthenticationOptions()
                 {
@@ -59,10 +59,10 @@ namespace OhMyBot.Dialogs
                     var json = await new HttpClient().GetWithAuthAsync(authresult.AccessToken, "https://graph.microsoft.com/v1.0/me");
                     await authContext.PostAsync($"I'm a simple bot that doesn't do much, but I know your name is {json.Value<string>("displayName")} and your UPN is {json.Value<string>("userPrincipalName")}");
                 }, activity, CancellationToken.None);
-                
+                */
                 // Go back to loop
-                //await context.PostAsync("Sign in does not work properly just yet");
-                //context.Wait(this.MessageReceivedAsync);
+                await context.PostAsync("Sign in does not work properly just yet");
+                context.Wait(this.MessageReceivedAsync);
 
             }
 
