@@ -49,7 +49,7 @@ namespace OhMyBot.Dialogs
                     //Scopes = new string[] { "https://management.azure.com/" },
                     Scopes = new string[] { "User.Read" },
                     RedirectUrl = ConfigurationManager.AppSettings["aad:Callback"],
-                    //MagicNumberView = "/magic.html#{0}"
+                    MagicNumberView = "/magic.html#{0}"
                 };
 
                 await context.Forward(new AuthDialog(new MSALAuthProvider(), options), async (IDialogContext authContext, IAwaitable<AuthResult> authResult) =>
