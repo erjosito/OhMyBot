@@ -61,8 +61,8 @@ namespace OhMyBot.Dialogs
                 }, activity, CancellationToken.None);
                 
                 // Go back to loop
-                await context.PostAsync("Sign in does not work properly just yet");
-                context.Wait(this.MessageReceivedAsync);
+                //await context.PostAsync("Sign in does not work properly just yet");
+                //context.Wait(this.MessageReceivedAsync);
 
             }
 
