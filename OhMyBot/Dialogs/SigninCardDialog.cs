@@ -34,7 +34,8 @@ namespace OhMyBot.Dialogs
                 var message = context.MakeMessage();
                 message.Attachments.Add(attachment);
                 await context.PostAsync(message);
-
+                // Go back to loop
+                context.Wait(this.MessageReceivedAsync);
             }
             else if (activity.Text.ToLower().Contains("sign"))
             {
@@ -52,11 +53,14 @@ namespace OhMyBot.Dialogs
 
                 await context.Forward(new AuthDialog(new MSALAuthProvider(), options), async (IDialogContext authContext, IAwaitable<AuthResult> authResult) =>
                 {
-                    var authresult = await authResult;
+                    //var authresult = await authResult;
                     // Use token to call into service
-                    var json = await new HttpClient().GetWithAuthAsync(authresult.AccessToken, "https://graph.microsoft.com/v1.0/me");
-                    await authContext.PostAsync($"I'm a simple bot that doesn't do much, but I know your name is {json.Value<string>("displayName")} and your UPN is {json.Value<string>("userPrincipalName")}");
+                    //var json = await new HttpClient().GetWithAuthAsync(authresult.AccessToken, "https://graph.microsoft.com/v1.0/me");
+                    //await authContext.PostAsync($"I'm a simple bot that doesn't do much, but I know your name is {json.Value<string>("displayName")} and your UPN is {json.Value<string>("userPrincipalName")}");
                 }, activity, CancellationToken.None);
+
+                // Go back to loop
+                context.Wait(this.MessageReceivedAsync);
 
             }
 
@@ -67,6 +71,7 @@ namespace OhMyBot.Dialogs
             else
             {
                 await context.PostAsync($"I cannot do much just yet, please type card, signin or exit");
+                // Go back to loop
                 context.Wait(this.MessageReceivedAsync);
             }
 
