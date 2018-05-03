@@ -46,7 +46,7 @@ namespace OhMyBot.Dialogs
                     Authority = ConfigurationManager.AppSettings["aad:Authority"],
                     ClientId = ConfigurationManager.AppSettings["aad:ClientId"],
                     ClientSecret = ConfigurationManager.AppSettings["aad:ClientSecret"],
-                    //Scopes = new string[] { "https://management.azure.com/" },
+                    //Scopes = new string[] { "https://outlook.office.com/mail.read", "email", "profile", "offline_acces" },
                     Scopes = new string[] { "User.Read" },
                     RedirectUrl = ConfigurationManager.AppSettings["aad:Callback"],
                     MagicNumberView = "/magic.html#{0}"

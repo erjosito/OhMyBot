@@ -22,13 +22,14 @@ namespace OhMyBot.Dialogs
             await this.SendWelcomeMessageAsync(context);
         }
 
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
-        {
-            /* When MessageReceivedAsync is called, it's passed an IAwaitable<IMessageActivity>. To get the message,
-                   *  await the result. */
-            var message = await argument;
-            await this.SendWelcomeMessageAsync(context);
-        }
+        //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
+        //{
+        //    /* When MessageReceivedAsync is called, it's passed an IAwaitable<IMessageActivity>. To get the message,
+        //            *  await the result. */
+        //    var message = await argument;
+        //    await this.SendWelcomeMessageAsync(context);
+        //}
+       
         private async Task SendWelcomeMessageAsync(IDialogContext context)
         {
             await context.PostAsync("Hi, you are now in the Echo Counter Dialog. Let's get started.");
@@ -86,7 +87,7 @@ namespace OhMyBot.Dialogs
             catch (TooManyAttemptsException ex)
             {
                 await context.PostAsync($"Ooops! Too many attempts :(. But don't worry, I'm handling that exception and you can try again!");
-                context.Wait(this.MessageReceivedAsync);
+                context.Wait(this.CounterLoop);
             }
         }
 
